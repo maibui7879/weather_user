@@ -16,9 +16,10 @@ exports.register = async (req, res) => {
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "2h" });
     const { password: _, ...userData } = user.toObject();
     res.status(201).json({ token, user: userData });
-  } catch {
-    res.status(500).json({ message: "Lỗi server" });
-  }
+    } catch (err) {
+      console.error("Tên lỗi gì đó:", err);
+      res.status(500).json({ message: "Lỗi server" });
+    }
 };
 
 exports.login = async (req, res) => {
